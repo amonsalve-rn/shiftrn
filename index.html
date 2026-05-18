@@ -17,7 +17,6 @@
   --start-accent:#c084fc;--start-bg:#1e1428;--start-border:#5b3480;
   --fri-accent:#f59e0b;--wknd-accent:#fb7185;
   --green:#4ade80;--red:#f87171;--amber:#fbbf24;--rose:#fb7185;
-  --stats-h:72px;
 }
 html{font-size:16px;}
 body{
@@ -30,22 +29,23 @@ body{
   position:relative;z-index:200;flex-shrink:0;
   background:rgba(15,17,23,0.97);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
-  padding:8px 44px 8px 12px;
+  padding:10px 12px;
+  display:grid;grid-template-columns:1fr 36px;gap:8px;align-items:start;
 }
 .stats-strip{
-  display:flex;gap:6px;align-items:stretch;
-  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:8px;min-width:0;
 }
-.stats-strip::-webkit-scrollbar{display:none;}
 .stat{
   background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:6px 10px;display:flex;align-items:center;gap:7px;flex-shrink:0;
+  padding:8px 10px;display:flex;align-items:center;gap:8px;min-width:0;
 }
-.stat-ico{font-size:13px;line-height:1;}
+.stat-body{min-width:0;flex:1;}
+.stat-ico{font-size:13px;line-height:1;flex-shrink:0;}
 .stat-val{font-size:17px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
 .stat-of{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
 .stat-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
-.prog{height:2px;background:var(--border2);border-radius:1px;overflow:hidden;margin-top:3px;width:52px;}
+.stat-row{display:flex;align-items:baseline;gap:3px;}
+.prog{height:2px;background:var(--border2);border-radius:1px;overflow:hidden;margin-top:3px;width:100%;}
 .prog-fill{height:100%;border-radius:1px;transition:width .3s;background:var(--text3);}
 .stat.day .prog-fill{background:var(--day-accent);}
 .stat.night .prog-fill{background:var(--night-accent);}
@@ -53,18 +53,20 @@ body{
 .stat-val.met{color:var(--green) !important;}
 .stat-val.over{color:var(--red) !important;}
 .block-pill{
-  flex-shrink:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:6px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:8px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0;
 }
 .block-pill-lbl{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
-.block-pill-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;white-space:nowrap;}
+.block-pill-val{
+  font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
 
 /* SETTINGS */
 .settings-btn{
-  position:absolute;top:50%;right:10px;transform:translateY(-50%);
-  width:32px;height:32px;border-radius:8px;border:1px solid var(--border2);
+  width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);
   background:var(--surface2);color:var(--text2);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
   transition:background .13s,color .13s;
 }
 .settings-btn:hover{background:var(--surface3);color:var(--text);}
@@ -96,7 +98,7 @@ body{
 /* YEAR CALENDAR SCROLL */
 .cal-scroll{
   flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
-  padding:12px 16px 40px;max-width:900px;margin:0 auto;width:100%;
+  padding:12px 16px 40px;width:100%;
 }
 .dow-hdrs{
   position:sticky;top:0;z-index:50;
@@ -199,10 +201,18 @@ body{
 .toast.show{transform:translateX(-50%) translateY(0);}
 
 @media(max-width:640px){
-  .stats-header{padding:6px 40px 6px 8px;}
-  .stat{padding:5px 8px;}
+  .stats-header{padding:8px 10px;grid-template-columns:1fr 34px;gap:6px;}
+  .stats-strip{grid-template-columns:repeat(3,1fr);gap:5px;}
+  .settings-btn{grid-row:1/-1;align-self:start;}
+  .stat{padding:6px 7px;gap:5px;}
+  .stat-ico{font-size:11px;}
   .stat-val{font-size:15px;}
-  .block-pill{display:none;}
+  .stat-of{font-size:9px;}
+  .stat-lbl{font-size:8px;}
+  .block-pill{padding:6px 7px;}
+  .block-pill-val{font-size:9px;}
+  .settings-btn{width:34px;height:34px;}
+  .settings-menu{right:10px;}
   .cal-scroll{padding:8px 10px 32px;}
   .month-title{font-size:17px;}
   .day-cell{min-height:52px;padding:5px 4px 4px;}
@@ -212,6 +222,8 @@ body{
   .legend{gap:8px;padding:5px 10px;}
 }
 @media(max-width:400px){
+  .stat-ico{display:none;}
+  .stat{padding:6px 5px;}
   .day-cell{min-height:44px;}
   .day-cell.pad{min-height:44px;}
   .cell-tags{display:none;}
@@ -225,8 +237,8 @@ body{
   <div class="stats-strip">
     <div class="stat day">
       <div class="stat-ico">☀</div>
-      <div>
-        <div style="display:flex;align-items:baseline;gap:3px;">
+      <div class="stat-body">
+        <div class="stat-row">
           <div class="stat-val" id="day-count">0</div><div class="stat-of">/9</div>
         </div>
         <div class="stat-lbl">Day</div>
@@ -235,8 +247,8 @@ body{
     </div>
     <div class="stat night">
       <div class="stat-ico">☽</div>
-      <div>
-        <div style="display:flex;align-items:baseline;gap:3px;">
+      <div class="stat-body">
+        <div class="stat-row">
           <div class="stat-val" id="night-count">0</div><div class="stat-of">/9</div>
         </div>
         <div class="stat-lbl">Night</div>
@@ -245,8 +257,8 @@ body{
     </div>
     <div class="stat total">
       <div class="stat-ico">✓</div>
-      <div>
-        <div style="display:flex;align-items:baseline;gap:3px;">
+      <div class="stat-body">
+        <div class="stat-row">
           <div class="stat-val" id="total-count">0</div><div class="stat-of">/18</div>
         </div>
         <div class="stat-lbl">Total</div>
@@ -255,8 +267,8 @@ body{
     </div>
     <div class="stat fri">
       <div class="stat-ico">📅</div>
-      <div>
-        <div style="display:flex;align-items:baseline;gap:3px;">
+      <div class="stat-body">
+        <div class="stat-row">
           <div class="stat-val" id="fri-count">0</div><div class="stat-of">/3</div>
         </div>
         <div class="stat-lbl">Fri</div>
@@ -265,8 +277,8 @@ body{
     </div>
     <div class="stat wknd">
       <div class="stat-ico">🗓</div>
-      <div>
-        <div style="display:flex;align-items:baseline;gap:3px;">
+      <div class="stat-body">
+        <div class="stat-row">
           <div class="stat-val" id="wknd-count">0</div><div class="stat-of">/5</div>
         </div>
         <div class="stat-lbl">Wknd</div>
