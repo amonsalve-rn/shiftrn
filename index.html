@@ -369,23 +369,22 @@ function getBlockForKey(key){
   return null;
 }
 
-function getViewedBlock(){
+// Most recent schedule start on or before today (active block anchor)
+function getActiveBlockStart(){
   if(D.starts.length===0) return null;
-  const sorted=[...D.starts].sort();
-  const t=new Date();
-  const vm=t.getMonth();
-  const firstOfMonth=dk(YEAR,vm,1);
-  const lastOfMonth=dk(YEAR,vm,new Date(YEAR,vm+1,0).getDate());
-  for(let i=sorted.length-1;i>=0;i--){
-    const bs=sorted[i];
-    const start=fromDk(bs);
-    const end=new Date(start);end.setDate(end.getDate()+41);
-    const ek=dk(end.getFullYear(),end.getMonth(),end.getDate());
-    if(bs<=lastOfMonth && ek>=firstOfMonth) return bs;
+  const today=todayDk();
+  let blockStart=null;
+  for(const s of [...D.starts].sort()){
+    if(s<=today) blockStart=s;
   }
-  let fb=null;
-  for(const s of sorted){if(s<=lastOfMonth)fb=s;}
-  return fb;
+  return blockStart;
+}
+
+function getBlockRange(blockStart){
+  const start=fromDk(blockStart);
+  const end=new Date(start);
+  end.setDate(end.getDate()+41);
+  return{start:blockStart,end:dk(end.getFullYear(),end.getMonth(),end.getDate())};
 }
 
 function isWeekendShift(key, shift){
@@ -404,28 +403,23 @@ function isFridayShift(key, shift){
 }
 
 function updateStats(){
-  const blockStart=getViewedBlock();
-  let rangeStart, rangeEnd, range='No block set';
+  const blockStart=getActiveBlockStart();
+  let range='No block set';
+  let dc=0,nc=0,friC=0,wkndC=0;
 
   if(blockStart){
-    const start=fromDk(blockStart);
-    const end=new Date(start);end.setDate(end.getDate()+41);
-    rangeStart=blockStart;
-    rangeEnd=dk(end.getFullYear(),end.getMonth(),end.getDate());
-    range=MS[start.getMonth()]+' '+start.getDate()+' – '+MS[end.getMonth()]+' '+end.getDate()+', '+end.getFullYear();
-  }else{
-    rangeStart=dk(YEAR,0,1);
-    rangeEnd=dk(YEAR,11,31);
-    range=String(YEAR);
-  }
+    const{start:rangeStart,end:rangeEnd}=getBlockRange(blockStart);
+    const startDate=fromDk(blockStart);
+    const endDate=fromDk(rangeEnd);
+    range=MS[startDate.getMonth()]+' '+startDate.getDate()+' – '+MS[endDate.getMonth()]+' '+endDate.getDate()+', '+endDate.getFullYear();
 
-  let dc=0,nc=0,friC=0,wkndC=0;
-  for(const[k,v] of Object.entries(D.shifts)){
-    if(k<rangeStart||k>rangeEnd) continue;
-    if(v==='day') dc++;
-    if(v==='night') nc++;
-    if(isFridayShift(k,v)) friC++;
-    if(isWeekendShift(k,v)) wkndC++;
+    for(const[k,v] of Object.entries(D.shifts)){
+      if(k<rangeStart||k>rangeEnd) continue;
+      if(v==='day') dc++;
+      if(v==='night') nc++;
+      if(isFridayShift(k,v)) friC++;
+      if(isWeekendShift(k,v)) wkndC++;
+    }
   }
 
   const tot=dc+nc;
