@@ -24,28 +24,27 @@ body{
   height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;
 }
 
-/* STATS — sticky top strip */
+/* STATS — two rows (3 + 2) */
 .stats-header{
   position:relative;z-index:200;flex-shrink:0;
-  background:rgba(15,17,23,0.97);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-  padding:10px 12px;
-  display:grid;grid-template-columns:1fr 36px;gap:8px;align-items:start;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:10px 48px 10px 20px;
 }
-.stats-strip{
-  display:grid;grid-template-columns:repeat(6,1fr);gap:8px;min-width:0;
-}
+.stats-wrap{display:flex;flex-direction:column;gap:8px;overflow:hidden;}
+.stats-row{display:grid;gap:8px;align-items:stretch;}
+.stats-row-1{grid-template-columns:repeat(3,1fr);}
+.stats-row-2{grid-template-columns:repeat(2,1fr);}
 .stat{
-  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:8px 10px;display:flex;align-items:center;gap:8px;min-width:0;
+  background:var(--surface2);border:1px solid var(--border);border-radius:9px;
+  padding:8px 13px;display:flex;align-items:center;gap:9px;min-width:0;
 }
-.stat-body{min-width:0;flex:1;}
-.stat-ico{font-size:13px;line-height:1;flex-shrink:0;}
-.stat-val{font-size:17px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
-.stat-of{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
-.stat-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
-.stat-row{display:flex;align-items:baseline;gap:3px;}
-.prog{height:2px;background:var(--border2);border-radius:1px;overflow:hidden;margin-top:3px;width:100%;}
+.stat-inner{min-width:0;flex:1;}
+.stat-nums{display:flex;align-items:baseline;gap:3px;}
+.stat-ico{font-size:14px;line-height:1;flex-shrink:0;}
+.stat-val{font-size:19px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
+.stat-of{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
+.prog{height:2px;background:var(--border2);border-radius:1px;overflow:hidden;margin-top:4px;width:64px;}
 .prog-fill{height:100%;border-radius:1px;transition:width .3s;background:var(--text3);}
 .stat.day .prog-fill{background:var(--day-accent);}
 .stat.night .prog-fill{background:var(--night-accent);}
@@ -54,19 +53,17 @@ body{
 .stat-val.over{color:var(--red) !important;}
 .block-pill{
   background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:8px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0;
+  padding:6px 12px;display:flex;flex-direction:column;gap:2px;align-self:flex-start;
 }
-.block-pill-lbl{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
-.block-pill-val{
-  font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
+.block-pill-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.block-pill-val{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;}
 
 /* SETTINGS */
 .settings-btn{
-  width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);
+  position:absolute;top:10px;right:12px;
+  width:32px;height:32px;border-radius:8px;border:1px solid var(--border2);
   background:var(--surface2);color:var(--text2);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
   transition:background .13s,color .13s;
 }
 .settings-btn:hover{background:var(--surface3);color:var(--text);}
@@ -201,18 +198,10 @@ body{
 .toast.show{transform:translateX(-50%) translateY(0);}
 
 @media(max-width:640px){
-  .stats-header{padding:8px 10px;grid-template-columns:1fr 34px;gap:6px;}
-  .stats-strip{grid-template-columns:repeat(3,1fr);gap:5px;}
-  .settings-btn{grid-row:1/-1;align-self:start;}
-  .stat{padding:6px 7px;gap:5px;}
-  .stat-ico{font-size:11px;}
-  .stat-val{font-size:15px;}
-  .stat-of{font-size:9px;}
-  .stat-lbl{font-size:8px;}
-  .block-pill{padding:6px 7px;}
-  .block-pill-val{font-size:9px;}
-  .settings-btn{width:34px;height:34px;}
-  .settings-menu{right:10px;}
+  .stats-header{padding:8px 44px 8px 12px;}
+  .stats-row{gap:6px;}
+  .block-pill{display:none;}
+  .settings-btn{top:8px;right:10px;}
   .cal-scroll{padding:8px 10px 32px;}
   .month-title{font-size:17px;}
   .day-cell{min-height:52px;padding:5px 4px 4px;}
@@ -222,8 +211,6 @@ body{
   .legend{gap:8px;padding:5px 10px;}
 }
 @media(max-width:400px){
-  .stat-ico{display:none;}
-  .stat{padding:6px 5px;}
   .day-cell{min-height:44px;}
   .day-cell.pad{min-height:44px;}
   .cell-tags{display:none;}
@@ -234,59 +221,53 @@ body{
 <body>
 
 <header class="stats-header">
-  <div class="stats-strip">
-    <div class="stat day">
-      <div class="stat-ico">☀</div>
-      <div class="stat-body">
-        <div class="stat-row">
-          <div class="stat-val" id="day-count">0</div><div class="stat-of">/9</div>
+  <div class="stats-wrap">
+    <div class="stats-row stats-row-1">
+      <div class="stat day">
+        <div class="stat-ico">☀</div>
+        <div class="stat-inner">
+          <div class="stat-nums"><div class="stat-val" id="day-count">0</div><div class="stat-of">/9</div></div>
+          <div class="stat-lbl">Day shifts</div>
+          <div class="prog"><div class="prog-fill" id="day-bar" style="width:0%"></div></div>
         </div>
-        <div class="stat-lbl">Day</div>
-        <div class="prog"><div class="prog-fill" id="day-bar" style="width:0%"></div></div>
+      </div>
+      <div class="stat night">
+        <div class="stat-ico">☽</div>
+        <div class="stat-inner">
+          <div class="stat-nums"><div class="stat-val" id="night-count">0</div><div class="stat-of">/9</div></div>
+          <div class="stat-lbl">Night shifts</div>
+          <div class="prog"><div class="prog-fill" id="night-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="stat total">
+        <div class="stat-ico">✓</div>
+        <div class="stat-inner">
+          <div class="stat-nums"><div class="stat-val" id="total-count">0</div><div class="stat-of">/18</div></div>
+          <div class="stat-lbl">Total shifts</div>
+          <div class="prog"><div class="prog-fill" id="total-bar" style="width:0%"></div></div>
+        </div>
       </div>
     </div>
-    <div class="stat night">
-      <div class="stat-ico">☽</div>
-      <div class="stat-body">
-        <div class="stat-row">
-          <div class="stat-val" id="night-count">0</div><div class="stat-of">/9</div>
+    <div class="stats-row stats-row-2">
+      <div class="stat fri">
+        <div class="stat-ico">📅</div>
+        <div class="stat-inner">
+          <div class="stat-nums"><div class="stat-val" id="fri-count">0</div><div class="stat-of">/3</div></div>
+          <div class="stat-lbl">Friday shifts</div>
+          <div class="prog"><div class="prog-fill" id="fri-bar" style="width:0%"></div></div>
         </div>
-        <div class="stat-lbl">Night</div>
-        <div class="prog"><div class="prog-fill" id="night-bar" style="width:0%"></div></div>
       </div>
-    </div>
-    <div class="stat total">
-      <div class="stat-ico">✓</div>
-      <div class="stat-body">
-        <div class="stat-row">
-          <div class="stat-val" id="total-count">0</div><div class="stat-of">/18</div>
+      <div class="stat wknd">
+        <div class="stat-ico">🗓</div>
+        <div class="stat-inner">
+          <div class="stat-nums"><div class="stat-val" id="wknd-count">0</div><div class="stat-of">/5</div></div>
+          <div class="stat-lbl">Weekend shifts</div>
+          <div class="prog"><div class="prog-fill" id="wknd-bar" style="width:0%"></div></div>
         </div>
-        <div class="stat-lbl">Total</div>
-        <div class="prog"><div class="prog-fill" id="total-bar" style="width:0%"></div></div>
-      </div>
-    </div>
-    <div class="stat fri">
-      <div class="stat-ico">📅</div>
-      <div class="stat-body">
-        <div class="stat-row">
-          <div class="stat-val" id="fri-count">0</div><div class="stat-of">/3</div>
-        </div>
-        <div class="stat-lbl">Fri</div>
-        <div class="prog"><div class="prog-fill" id="fri-bar" style="width:0%"></div></div>
-      </div>
-    </div>
-    <div class="stat wknd">
-      <div class="stat-ico">🗓</div>
-      <div class="stat-body">
-        <div class="stat-row">
-          <div class="stat-val" id="wknd-count">0</div><div class="stat-of">/5</div>
-        </div>
-        <div class="stat-lbl">Wknd</div>
-        <div class="prog"><div class="prog-fill" id="wknd-bar" style="width:0%"></div></div>
       </div>
     </div>
     <div class="block-pill">
-      <div class="block-pill-lbl">Block</div>
+      <div class="block-pill-lbl">Tracking block</div>
       <div class="block-pill-val" id="block-range">No block set</div>
     </div>
   </div>
