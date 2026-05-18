@@ -17,115 +17,112 @@
   --start-accent:#c084fc;--start-bg:#1e1428;--start-border:#5b3480;
   --fri-accent:#f59e0b;--wknd-accent:#fb7185;
   --green:#4ade80;--red:#f87171;--amber:#fbbf24;--rose:#fb7185;
+  --stats-h:72px;
 }
 html{font-size:16px;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);
+  height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;
+}
 
-/* TOPBAR */
-.topbar{
-  position:sticky;top:0;z-index:200;
-  background:rgba(15,17,23,0.96);backdrop-filter:blur(14px);
+/* STATS — sticky top strip */
+.stats-header{
+  position:relative;z-index:200;flex-shrink:0;
+  background:rgba(15,17,23,0.97);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
-  padding:0 16px;height:54px;
-  display:flex;align-items:center;gap:8px;
-  overflow:hidden;
+  padding:8px 44px 8px 12px;
 }
-.app-name{font-size:15px;font-weight:600;letter-spacing:-.01em;flex-shrink:0;}
-.app-name span{color:var(--day-accent);}
-.nav-row{
-  flex:1 1 0;min-width:0;
-  display:flex;align-items:center;justify-content:center;gap:6px;
+.stats-strip{
+  display:flex;gap:6px;align-items:stretch;
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
-.nav-btn{
-  background:var(--surface2);border:1px solid var(--border2);color:var(--text2);
-  width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:18px;
-  display:flex;align-items:center;justify-content:center;transition:all .13s;
-  flex-shrink:0;
-}
-.nav-btn:hover{background:var(--surface3);color:var(--text);}
-.month-label{
-  font-size:15px;font-weight:600;text-align:center;letter-spacing:-.01em;
-  min-width:0;flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.topbar-actions{
-  display:flex;align-items:center;gap:6px;flex-shrink:0;
-}
-.today-btn{
-  background:none;border:1px solid var(--border2);color:var(--text2);
-  padding:5px 10px;border-radius:7px;font-size:12px;font-weight:500;
-  cursor:pointer;transition:all .13s;font-family:'DM Sans',sans-serif;white-space:nowrap;
-}
-.today-btn:hover{background:var(--surface2);color:var(--text);}
-.today-btn.clear-btn{color:var(--red);border-color:rgba(248,113,113,.3);}
-.clear-btn .lbl-short{display:none;}
-
-/* STATS STRIP — two rows */
-.stats-wrap{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  padding:10px 20px;display:flex;flex-direction:column;gap:8px;flex-shrink:0;
-}
-.stats-row{display:flex;gap:8px;align-items:stretch;overflow-x:auto;}
+.stats-strip::-webkit-scrollbar{display:none;}
 .stat{
-  background:var(--surface2);border:1px solid var(--border);border-radius:9px;
-  padding:8px 13px;display:flex;align-items:center;gap:9px;flex-shrink:0;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:6px 10px;display:flex;align-items:center;gap:7px;flex-shrink:0;
 }
-.stat-ico{font-size:14px;line-height:1;}
-.stat-val{font-size:19px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
-.stat-of{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
-.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
-.prog{height:2px;background:var(--border2);border-radius:1px;overflow:hidden;margin-top:4px;width:64px;}
-.prog-fill{height:100%;border-radius:1px;transition:width .3s;}
-
-/* all progress bars use a neutral color; stat-val drives the number color */
-.prog-fill{background:var(--text3);}
+.stat-ico{font-size:13px;line-height:1;}
+.stat-val{font-size:17px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
+.stat-of{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
+.stat-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
+.prog{height:2px;background:var(--border2);border-radius:1px;overflow:hidden;margin-top:3px;width:52px;}
+.prog-fill{height:100%;border-radius:1px;transition:width .3s;background:var(--text3);}
 .stat.day .prog-fill{background:var(--day-accent);}
 .stat.night .prog-fill{background:var(--night-accent);}
-
-/* number color states: red = under or over, green = exactly met */
 .stat-val{color:var(--red);}
 .stat-val.met{color:var(--green) !important;}
 .stat-val.over{color:var(--red) !important;}
-
 .block-pill{
-  margin-left:auto;flex-shrink:0;
-  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:6px 12px;display:flex;flex-direction:column;gap:2px;align-items:flex-end;
-  align-self:center;
+  flex-shrink:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  padding:6px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;
 }
-.block-pill-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
-.block-pill-val{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;}
+.block-pill-lbl{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.block-pill-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;white-space:nowrap;}
+
+/* SETTINGS */
+.settings-btn{
+  position:absolute;top:50%;right:10px;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:8px;border:1px solid var(--border2);
+  background:var(--surface2);color:var(--text2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .13s,color .13s;
+}
+.settings-btn:hover{background:var(--surface3);color:var(--text);}
+.settings-btn svg{width:16px;height:16px;}
+.settings-menu{
+  display:none;position:absolute;top:calc(100% + 4px);right:10px;z-index:300;
+  background:var(--surface2);border:1px solid var(--border2);border-radius:10px;
+  padding:5px;min-width:168px;box-shadow:0 10px 36px rgba(0,0,0,.55);
+}
+.settings-menu.open{display:block;}
+.settings-item{
+  display:block;width:100%;text-align:left;padding:9px 12px;border:none;border-radius:7px;
+  background:none;color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:background .1s,color .1s;
+}
+.settings-item:hover{background:var(--surface3);color:var(--text);}
+.settings-item.danger{color:var(--red);}
+.settings-item.danger:hover{background:rgba(248,113,113,.1);color:var(--red);}
 
 /* LEGEND */
 .legend{
-  display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;
-  padding:7px 16px;border-bottom:1px solid var(--border);
-  background:var(--surface);
+  flex-shrink:0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;
+  padding:6px 12px;border-bottom:1px solid var(--border);background:var(--surface);
 }
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);}
-.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
-.leg-hint{font-size:10px;color:var(--text3);font-style:italic;}
+.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.leg-hint{font-size:9px;color:var(--text3);font-style:italic;}
 
-/* CALENDAR */
-.cal-wrap{flex:1;padding:12px 16px 32px;max-width:900px;margin:0 auto;width:100%;}
-.dow-hdrs{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
-.dow-hdr{text-align:center;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:4px 0;}
+/* YEAR CALENDAR SCROLL */
+.cal-scroll{
+  flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+  padding:12px 16px 40px;max-width:900px;margin:0 auto;width:100%;
+}
+.dow-hdrs{
+  position:sticky;top:0;z-index:50;
+  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;
+  background:var(--bg);padding:4px 0 6px;
+}
+.dow-hdr{text-align:center;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;}
 .dow-hdr.fri{color:var(--amber);opacity:.7;}
 .dow-hdr.wknd{color:var(--text2);}
-
+.month-section{margin-bottom:28px;scroll-margin-top:8px;}
+.month-title{
+  font-size:20px;font-weight:600;letter-spacing:-.02em;
+  padding:4px 2px 10px;color:var(--text);
+}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
 
 .day-cell{
   border-radius:8px;border:1px solid var(--border);background:var(--surface);
-  min-height:78px;padding:8px 7px 6px;cursor:pointer;
+  min-height:72px;padding:7px 6px 5px;cursor:pointer;
   display:flex;flex-direction:column;align-items:flex-start;gap:3px;
   transition:border-color .12s,background .12s;position:relative;
   -webkit-tap-highlight-color:transparent;user-select:none;
 }
-.day-cell:hover{border-color:var(--border2);background:var(--surface2);}
-.day-cell:active{transform:scale(.97);}
-.day-cell.other-month{opacity:.28;}
-
-/* shift backgrounds */
+.day-cell.pad{background:transparent;border-color:transparent;cursor:default;min-height:72px;}
+.day-cell:not(.pad):hover{border-color:var(--border2);background:var(--surface2);}
+.day-cell:not(.pad):active{transform:scale(.97);}
 .day-cell.day-shift{background:var(--day-bg);border-color:var(--day-border);}
 .day-cell.day-shift:hover{border-color:#268a68;}
 .day-cell.night-shift{background:var(--night-bg);border-color:var(--night-border);}
@@ -133,37 +130,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .day-cell.schedule-start{border-color:var(--start-border);background:var(--start-bg);}
 .day-cell.schedule-start.day-shift{background:linear-gradient(140deg,var(--start-bg) 0%,var(--day-bg) 55%);border-color:var(--day-border);}
 .day-cell.schedule-start.night-shift{background:linear-gradient(140deg,var(--start-bg) 0%,var(--night-bg) 55%);border-color:var(--night-border);}
-
-/* today ring */
 .day-cell.is-today .day-num-wrap{
   background:var(--day-accent);width:22px;height:22px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
 }
 .day-cell.is-today .day-num{color:#051a12;font-weight:700;font-size:12px;}
-
 .day-num{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text2);line-height:1;}
 .day-cell.day-shift .day-num{color:var(--day-text);}
 .day-cell.night-shift .day-num{color:var(--night-text);}
 .day-cell.schedule-start:not(.day-shift):not(.night-shift) .day-num{color:#c084fc;}
-
-/* fri: no special border, just the header label color is enough */
-
 .cell-tags{display:flex;flex-direction:row;flex-wrap:wrap;gap:3px;width:100%;margin-top:2px;align-items:center;}
 .tag{font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 5px;border-radius:3px;line-height:1.5;display:inline-block;}
 .tag.start{background:rgba(192,132,252,.14);color:var(--start-accent);}
 .tag.day{background:rgba(46,200,148,.13);color:var(--day-accent);}
 .tag.night{background:rgba(240,120,48,.13);color:var(--night-accent);}
-/* small icon-only checkmarks for fri/wknd — no background block */
 .tag-check{font-size:11px;line-height:1;display:inline-flex;align-items:center;gap:2px;}
 .tag-check.fri{color:var(--amber);}
 .tag-check.wknd{color:var(--rose);}
 .tag-check.both{color:var(--amber);}
-
-.start-corner{
-  position:absolute;top:5px;right:6px;
-  width:6px;height:6px;border-radius:50%;
-  background:var(--start-accent);opacity:.7;
-}
+.start-corner{position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--start-accent);opacity:.7;}
 
 /* CONTEXT MENU */
 .ctx{
@@ -184,6 +169,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ctx-row .ci{width:16px;text-align:center;font-size:13px;}
 .ctx-sep{height:1px;background:var(--border);margin:3px 0;}
 
+/* MODAL */
+.modal-backdrop{
+  display:none;position:fixed;inset:0;z-index:400;
+  background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:20px;
+}
+.modal-backdrop.open{display:flex;}
+.modal{
+  background:var(--surface2);border:1px solid var(--border2);border-radius:14px;
+  padding:22px;max-width:340px;width:100%;
+}
+.modal p{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:18px;}
+.modal p strong{color:var(--red);}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;}
+.modal-btn{
+  padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;
+  cursor:pointer;font-family:'DM Sans',sans-serif;border:1px solid var(--border2);
+  background:var(--surface3);color:var(--text2);
+}
+.modal-btn.primary{background:var(--red);color:#fff;border-color:var(--red);font-weight:600;}
+
 /* TOAST */
 .toast{
   position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(64px);
@@ -193,64 +198,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 }
 .toast.show{transform:translateX(-50%) translateY(0);}
 
-/* MOBILE */
 @media(max-width:640px){
-  .topbar{padding:0 10px;gap:6px;}
-  .app-name{font-size:14px;}
-  .nav-row{gap:4px;}
-  .nav-btn{width:28px;height:28px;font-size:16px;border-radius:6px;}
-  .month-label{font-size:13px;}
-  .topbar-actions{gap:4px;}
-  .today-btn{padding:4px 8px;font-size:11px;border-radius:6px;}
-  .stats-wrap{padding:8px 12px;}
+  .stats-header{padding:6px 40px 6px 8px;}
+  .stat{padding:5px 8px;}
+  .stat-val{font-size:15px;}
   .block-pill{display:none;}
-  .cal-wrap{padding:8px 8px 24px;}
-  .day-cell{min-height:56px;padding:6px 4px 4px;}
+  .cal-scroll{padding:8px 10px 32px;}
+  .month-title{font-size:17px;}
+  .day-cell{min-height:52px;padding:5px 4px 4px;}
+  .day-cell.pad{min-height:52px;}
   .day-num{font-size:12px;}
   .tag{font-size:8px;}
-}
-@media(max-width:380px){
-  .clear-btn .lbl-full{display:none;}
-  .clear-btn .lbl-short{display:inline;}
+  .legend{gap:8px;padding:5px 10px;}
 }
 @media(max-width:400px){
-  .day-cell{min-height:46px;}
+  .day-cell{min-height:44px;}
+  .day-cell.pad{min-height:44px;}
   .cell-tags{display:none;}
+  .leg-hint{display:none;}
 }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="app-name">Shift<span>RN</span></div>
-  <div class="nav-row">
-    <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
-    <div class="month-label" id="month-label"></div>
-    <button class="nav-btn" onclick="changeMonth(1)">›</button>
-  </div>
-  <div class="topbar-actions">
-    <button class="today-btn" onclick="goToday()">Today</button>
-    <button class="today-btn clear-btn" id="clear-all-btn"><span class="lbl-full">Clear all</span><span class="lbl-short">Clear</span></button>
-  </div>
-</div>
-
-<!-- inline confirm banner -->
-<div id="clear-confirm" style="display:none;position:sticky;top:54px;z-index:199;background:#2a1010;border-bottom:1px solid rgba(248,113,113,.35);padding:10px 20px;display:none;align-items:center;justify-content:center;gap:12px;">
-  <span style="font-size:13px;color:var(--red);">Clear all shifts and schedule starts? This cannot be undone.</span>
-  <button id="clear-yes" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Yes, clear all</button>
-  <button id="clear-no" style="background:var(--surface3);color:var(--text2);border:1px solid var(--border2);border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
-</div>
-
-<div class="stats-wrap">
-  <!-- Row 1: shift counts -->
-  <div class="stats-row">
+<header class="stats-header">
+  <div class="stats-strip">
     <div class="stat day">
       <div class="stat-ico">☀</div>
       <div>
         <div style="display:flex;align-items:baseline;gap:3px;">
           <div class="stat-val" id="day-count">0</div><div class="stat-of">/9</div>
         </div>
-        <div class="stat-lbl">Day shifts</div>
+        <div class="stat-lbl">Day</div>
         <div class="prog"><div class="prog-fill" id="day-bar" style="width:0%"></div></div>
       </div>
     </div>
@@ -260,7 +239,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div style="display:flex;align-items:baseline;gap:3px;">
           <div class="stat-val" id="night-count">0</div><div class="stat-of">/9</div>
         </div>
-        <div class="stat-lbl">Night shifts</div>
+        <div class="stat-lbl">Night</div>
         <div class="prog"><div class="prog-fill" id="night-bar" style="width:0%"></div></div>
       </div>
     </div>
@@ -270,24 +249,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div style="display:flex;align-items:baseline;gap:3px;">
           <div class="stat-val" id="total-count">0</div><div class="stat-of">/18</div>
         </div>
-        <div class="stat-lbl">Total shifts</div>
+        <div class="stat-lbl">Total</div>
         <div class="prog"><div class="prog-fill" id="total-bar" style="width:0%"></div></div>
       </div>
     </div>
-    <div class="block-pill">
-      <div class="block-pill-lbl">Tracking block</div>
-      <div class="block-pill-val" id="block-range">No block set</div>
-    </div>
-  </div>
-  <!-- Row 2: requirements -->
-  <div class="stats-row">
     <div class="stat fri">
       <div class="stat-ico">📅</div>
       <div>
         <div style="display:flex;align-items:baseline;gap:3px;">
           <div class="stat-val" id="fri-count">0</div><div class="stat-of">/3</div>
         </div>
-        <div class="stat-lbl">Friday shifts</div>
+        <div class="stat-lbl">Fri</div>
         <div class="prog"><div class="prog-fill" id="fri-bar" style="width:0%"></div></div>
       </div>
     </div>
@@ -297,30 +269,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div style="display:flex;align-items:baseline;gap:3px;">
           <div class="stat-val" id="wknd-count">0</div><div class="stat-of">/5</div>
         </div>
-        <div class="stat-lbl">Weekend shifts</div>
+        <div class="stat-lbl">Wknd</div>
         <div class="prog"><div class="prog-fill" id="wknd-bar" style="width:0%"></div></div>
       </div>
     </div>
-    <div style="flex:1;display:flex;align-items:center;padding:0 4px;min-width:180px;">
-      <div style="font-size:10px;color:var(--text3);line-height:1.6;">
-        <span style="color:var(--amber);font-weight:600;">Fri:</span> day or night &nbsp;·&nbsp;
-        <span style="color:var(--rose);font-weight:600;">Wknd:</span> Fri night · Sat day/night · Sun day<br>
-        <span style="color:var(--text3);">Fri night counts toward both requirements</span>
-      </div>
+    <div class="block-pill">
+      <div class="block-pill-lbl">Block</div>
+      <div class="block-pill-val" id="block-range">No block set</div>
     </div>
   </div>
-</div>
+  <button class="settings-btn" id="settings-btn" type="button" aria-label="Settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+  </button>
+  <div class="settings-menu" id="settings-menu">
+    <button type="button" class="settings-item" id="goto-today-btn">Go to today</button>
+    <button type="button" class="settings-item danger" id="clear-all-btn">Clear all data</button>
+  </div>
+</header>
 
 <div class="legend">
-  <div class="leg"><div class="leg-dot" style="background:var(--day-bg);border:1px solid var(--day-border)"></div>Day shift</div>
-  <div class="leg"><div class="leg-dot" style="background:var(--night-bg);border:1px solid var(--night-border)"></div>Night shift</div>
-  <div class="leg"><div class="leg-dot" style="background:var(--start-bg);border:1px solid var(--start-border)"></div>Schedule start</div>
-  <div class="leg"><span style="color:var(--amber);font-size:11px;font-weight:600;">F ✓</span><span style="margin-left:2px;">= Friday</span></div>
-  <div class="leg"><span style="color:var(--rose);font-size:11px;font-weight:600;">W ✓</span><span style="margin-left:2px;">= Weekend</span></div>
-  <span class="leg-hint">Left-click = cycle shift &nbsp;|&nbsp; Right-click / long-press = options</span>
+  <div class="leg"><div class="leg-dot" style="background:var(--day-bg);border:1px solid var(--day-border)"></div>Day</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--night-bg);border:1px solid var(--night-border)"></div>Night</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--start-bg);border:1px solid var(--start-border)"></div>Start</div>
+  <div class="leg"><span style="color:var(--amber);font-size:10px;font-weight:600;">F ✓</span> Friday</div>
+  <div class="leg"><span style="color:var(--rose);font-size:10px;font-weight:600;">W ✓</span> Weekend</div>
+  <span class="leg-hint">Tap = cycle &nbsp;·&nbsp; Right-click / long-press = options</span>
 </div>
 
-<div class="cal-wrap">
+<main class="cal-scroll" id="cal-scroll">
   <div class="dow-hdrs">
     <div class="dow-hdr wknd">Sun</div>
     <div class="dow-hdr">Mon</div>
@@ -330,8 +308,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="dow-hdr fri">Fri</div>
     <div class="dow-hdr wknd">Sat</div>
   </div>
-  <div class="cal-grid" id="cal-grid"></div>
-</div>
+</main>
 
 <div class="ctx" id="ctx">
   <div class="ctx-hdr" id="ctx-hdr"></div>
@@ -351,13 +328,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
+<div class="modal-backdrop" id="clear-modal">
+  <div class="modal">
+    <p><strong>Clear all data?</strong> This removes every shift and schedule start. It cannot be undone.</p>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn" id="clear-no">Cancel</button>
+      <button type="button" class="modal-btn primary" id="clear-yes">Clear all</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const SK='shiftrn_v3';
-let vy=new Date().getFullYear(), vm=new Date().getMonth();
+const YEAR=new Date().getFullYear();
 let D={shifts:{},starts:[]};
 let ctxKey=null, lpTimer=null;
 
@@ -374,7 +361,6 @@ function dk(y,m,d){return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padSta
 function fromDk(k){const p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
 function todayDk(){const t=new Date();return dk(t.getFullYear(),t.getMonth(),t.getDate());}
 
-// Returns the block start key that contains the given date key, or null
 function getBlockForKey(key){
   const sorted=[...D.starts].sort();
   let blockStart=null;
@@ -382,7 +368,6 @@ function getBlockForKey(key){
     if(s<=key) blockStart=s;
   }
   if(!blockStart) return null;
-  // check key falls within 42 days of blockStart
   const start=fromDk(blockStart);
   const end=new Date(start);
   end.setDate(end.getDate()+41);
@@ -391,16 +376,13 @@ function getBlockForKey(key){
   return null;
 }
 
-// Returns the block start that best represents the currently viewed month
-// Prefers: a block whose range overlaps the viewed month
-// Falls back to: most recent block start before viewed month
 function getViewedBlock(){
   if(D.starts.length===0) return null;
   const sorted=[...D.starts].sort();
-  // Find blocks that overlap the current view month
-  const firstOfMonth=dk(vy,vm,1);
-  const lastOfMonth=dk(vy,vm,new Date(vy,vm+1,0).getDate());
-  // A block overlaps if blockStart <= lastOfMonth AND blockEnd >= firstOfMonth
+  const t=new Date();
+  const vm=t.getMonth();
+  const firstOfMonth=dk(YEAR,vm,1);
+  const lastOfMonth=dk(YEAR,vm,new Date(YEAR,vm+1,0).getDate());
   for(let i=sorted.length-1;i>=0;i--){
     const bs=sorted[i];
     const start=fromDk(bs);
@@ -408,25 +390,21 @@ function getViewedBlock(){
     const ek=dk(end.getFullYear(),end.getMonth(),end.getDate());
     if(bs<=lastOfMonth && ek>=firstOfMonth) return bs;
   }
-  // fallback: most recent start before the viewed month
   let fb=null;
   for(const s of sorted){if(s<=lastOfMonth)fb=s;}
   return fb;
 }
 
-// Is a given date key a "qualifying weekend shift" for a given shift type?
-// Fri night -> yes; Sat day -> yes; Sat night -> yes; Sun day -> yes; else no
 function isWeekendShift(key, shift){
   const d=fromDk(key);
-  const dow=d.getDay(); // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
-  if(dow===5 && shift==='night') return true; // Fri night
-  if(dow===6 && shift==='day')   return true; // Sat day
-  if(dow===6 && shift==='night') return true; // Sat night
-  if(dow===0 && shift==='day')   return true; // Sun day
+  const dow=d.getDay();
+  if(dow===5 && shift==='night') return true;
+  if(dow===6 && shift==='day')   return true;
+  if(dow===6 && shift==='night') return true;
+  if(dow===0 && shift==='day')   return true;
   return false;
 }
 
-// Is it a Friday shift (day or night)?
 function isFridayShift(key, shift){
   const d=fromDk(key);
   return d.getDay()===5 && (shift==='day'||shift==='night');
@@ -443,9 +421,9 @@ function updateStats(){
     rangeEnd=dk(end.getFullYear(),end.getMonth(),end.getDate());
     range=MS[start.getMonth()]+' '+start.getDate()+' – '+MS[end.getMonth()]+' '+end.getDate()+', '+end.getFullYear();
   }else{
-    rangeStart=dk(vy,vm,1);
-    rangeEnd=dk(vy,vm,new Date(vy,vm+1,0).getDate());
-    range=MN[vm]+' '+vy;
+    rangeStart=dk(YEAR,0,1);
+    rangeEnd=dk(YEAR,11,31);
+    range=String(YEAR);
   }
 
   let dc=0,nc=0,friC=0,wkndC=0;
@@ -464,13 +442,13 @@ function updateStats(){
     el.textContent=val;
     if(val===target) el.className='stat-val met';
     else if(val>target) el.className='stat-val over';
-    else el.className='stat-val'; // red by default from CSS
+    else el.className='stat-val';
   }
 
   setVal('day-count',dc,9);
   setVal('night-count',nc,9);
   setVal('total-count',tot,18);
-  // fri and wknd: green at target AND over — use a separate helper
+
   function setValMin(id,val,target){
     const el=document.getElementById(id);
     el.textContent=val;
@@ -487,80 +465,96 @@ function updateStats(){
   document.getElementById('block-range').textContent=range;
 }
 
-function render(){
-  document.getElementById('month-label').textContent=MN[vm]+' '+vy;
-  const first=new Date(vy,vm,1);
+function monthCells(y,m){
+  const first=new Date(y,m,1);
   const startDow=first.getDay();
-  const dim=new Date(vy,vm+1,0).getDate();
-  const prevDim=new Date(vy,vm,0).getDate();
-  const tk=todayDk();
-  let cells=[];
-  for(let i=startDow-1;i>=0;i--){
-    const m=vm===0?11:vm-1,y=vm===0?vy-1:vy;
-    cells.push({d:prevDim-i,m,y,other:true});
-  }
-  for(let d=1;d<=dim;d++) cells.push({d,m:vm,y:vy,other:false});
+  const dim=new Date(y,m+1,0).getDate();
+  const cells=[];
+  for(let i=0;i<startDow;i++) cells.push({pad:true});
+  for(let d=1;d<=dim;d++) cells.push({d,m,y});
   const rem=(7-cells.length%7)%7;
-  for(let d=1;d<=rem;d++){
-    const m=vm===11?0:vm+1,y=vm===11?vy+1:vy;
-    cells.push({d,m,y,other:true});
+  for(let i=0;i<rem;i++) cells.push({pad:true});
+  return cells;
+}
+
+function appendDayCell(grid, cell, tk){
+  if(cell.pad){
+    const el=document.createElement('div');
+    el.className='day-cell pad';
+    grid.appendChild(el);
+    return;
+  }
+  const {d,m,y}=cell;
+  const key=dk(y,m,d);
+  const shift=D.shifts[key]||'off';
+  const isStart=D.starts.includes(key);
+  const isToday=key===tk;
+  const date=fromDk(key);
+  const dow=date.getDay();
+  const isFri=dow===5;
+  const isFriShift=isFridayShift(key,shift);
+  const isWkndShift=isWeekendShift(key,shift);
+
+  const dayEl=document.createElement('div');
+  dayEl.className='day-cell'+(isToday?' is-today':'')+(isFri?' is-fri':'');
+  if(shift==='day') dayEl.classList.add('day-shift');
+  if(shift==='night') dayEl.classList.add('night-shift');
+  if(isStart) dayEl.classList.add('schedule-start');
+
+  const numWrap=document.createElement('div');numWrap.className='day-num-wrap';
+  const num=document.createElement('div');num.className='day-num';num.textContent=d;
+  numWrap.appendChild(num);dayEl.appendChild(numWrap);
+
+  const tags=document.createElement('div');tags.className='cell-tags';
+  if(isStart){const t=document.createElement('div');t.className='tag start';t.textContent='Start';tags.appendChild(t);}
+  if(shift==='day'){const t=document.createElement('div');t.className='tag day';t.textContent='Day';tags.appendChild(t);}
+  if(shift==='night'){const t=document.createElement('div');t.className='tag night';t.textContent='Night';tags.appendChild(t);}
+  if(isFriShift && isWkndShift){
+    const t=document.createElement('span');t.className='tag-check both';t.title='Counts as Friday + Weekend';t.textContent='F+W ✓';tags.appendChild(t);
+  } else if(isFriShift){
+    const t=document.createElement('span');t.className='tag-check fri';t.title='Counts as Friday shift';t.textContent='F ✓';tags.appendChild(t);
+  } else if(isWkndShift){
+    const t=document.createElement('span');t.className='tag-check wknd';t.title='Counts as Weekend shift';t.textContent='W ✓';tags.appendChild(t);
+  }
+  dayEl.appendChild(tags);
+
+  if(isStart&&shift==='off'){
+    const dot=document.createElement('div');dot.className='start-corner';dayEl.appendChild(dot);
   }
 
-  const grid=document.getElementById('cal-grid');
-  grid.innerHTML='';
+  dayEl.addEventListener('click',e=>{e.stopPropagation();cycleShift(key);});
+  dayEl.addEventListener('contextmenu',e=>{e.preventDefault();openCtx(key,e.clientX,e.clientY);});
+  dayEl.addEventListener('touchstart',e=>{lpTimer=setTimeout(()=>{const t=e.touches[0];openCtx(key,t.clientX,t.clientY);},520);},{passive:true});
+  dayEl.addEventListener('touchend',()=>clearTimeout(lpTimer),{passive:true});
+  dayEl.addEventListener('touchmove',()=>clearTimeout(lpTimer),{passive:true});
 
-  cells.forEach(({d,m,y,other})=>{
-    const key=dk(y,m,d);
-    const shift=D.shifts[key]||'off';
-    const isStart=D.starts.includes(key);
-    const isToday=key===tk;
-    const date=fromDk(key);
-    const dow=date.getDay();
-    const isFri=dow===5;
-    const isFriShift=isFridayShift(key,shift);
-    const isWkndShift=isWeekendShift(key,shift);
+  grid.appendChild(dayEl);
+}
 
-    const cell=document.createElement('div');
-    cell.className='day-cell'
-      +(other?' other-month':'')
-      +(isToday?' is-today':'')
-      +(isFri?' is-fri':'');
-    if(shift==='day') cell.classList.add('day-shift');
-    if(shift==='night') cell.classList.add('night-shift');
-    if(isStart) cell.classList.add('schedule-start');
+function render(){
+  const scroll=document.getElementById('cal-scroll');
+  const dowHdrs=scroll.querySelector('.dow-hdrs');
+  scroll.innerHTML='';
+  scroll.appendChild(dowHdrs);
 
-    // number
-    const numWrap=document.createElement('div');numWrap.className='day-num-wrap';
-    const num=document.createElement('div');num.className='day-num';num.textContent=d;
-    numWrap.appendChild(num);cell.appendChild(numWrap);
+  const tk=todayDk();
+  for(let m=0;m<12;m++){
+    const section=document.createElement('section');
+    section.className='month-section';
+    section.id='month-'+m;
 
-    // tags
-    const tags=document.createElement('div');tags.className='cell-tags';
-    if(isStart){const t=document.createElement('div');t.className='tag start';t.textContent='Start';tags.appendChild(t);}
-    if(shift==='day'){const t=document.createElement('div');t.className='tag day';t.textContent='Day';tags.appendChild(t);}
-    if(shift==='night'){const t=document.createElement('div');t.className='tag night';t.textContent='Night';tags.appendChild(t);}
-    // small checkmark indicators — fri and/or wknd
-    if(isFriShift && isWkndShift){
-      const t=document.createElement('span');t.className='tag-check both';t.title='Counts as Friday + Weekend';t.textContent='F+W ✓';tags.appendChild(t);
-    } else if(isFriShift){
-      const t=document.createElement('span');t.className='tag-check fri';t.title='Counts as Friday shift';t.textContent='F ✓';tags.appendChild(t);
-    } else if(isWkndShift){
-      const t=document.createElement('span');t.className='tag-check wknd';t.title='Counts as Weekend shift';t.textContent='W ✓';tags.appendChild(t);
-    }
-    cell.appendChild(tags);
+    const title=document.createElement('h2');
+    title.className='month-title';
+    title.textContent=MN[m]+' '+YEAR;
 
-    if(isStart&&shift==='off'){
-      const dot=document.createElement('div');dot.className='start-corner';cell.appendChild(dot);
-    }
+    const grid=document.createElement('div');
+    grid.className='cal-grid';
+    monthCells(YEAR,m).forEach(c=>appendDayCell(grid,c,tk));
 
-    cell.addEventListener('click',e=>{e.stopPropagation();cycleShift(key);});
-    cell.addEventListener('contextmenu',e=>{e.preventDefault();openCtx(key,e.clientX,e.clientY);});
-    cell.addEventListener('touchstart',e=>{lpTimer=setTimeout(()=>{const t=e.touches[0];openCtx(key,t.clientX,t.clientY);},520);},{passive:true});
-    cell.addEventListener('touchend',()=>clearTimeout(lpTimer),{passive:true});
-    cell.addEventListener('touchmove',()=>clearTimeout(lpTimer),{passive:true});
-
-    grid.appendChild(cell);
-  });
+    section.appendChild(title);
+    section.appendChild(grid);
+    scroll.appendChild(section);
+  }
 
   updateStats();
 }
@@ -594,6 +588,7 @@ function openCtx(key,x,y){
 }
 
 function closeCtx(){document.getElementById('ctx').classList.remove('open');}
+function closeSettings(){document.getElementById('settings-menu').classList.remove('open');}
 
 function ctxDo(action){
   if(!ctxKey) return;
@@ -615,25 +610,30 @@ function ctxDo(action){
   closeCtx();save();render();
 }
 
-document.addEventListener('click',()=>closeCtx());
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCtx();});
+document.addEventListener('click',()=>{closeCtx();closeSettings();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeCtx();closeSettings();hideClearConfirm();}
+});
 
-function changeMonth(dir){
-  vm+=dir;
-  if(vm>11){vm=0;vy++;}else if(vm<0){vm=11;vy--;}
-  render();
+function scrollToToday(){
+  const m=new Date().getMonth();
+  const el=document.getElementById('month-'+m);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  closeSettings();
+  showToast('Jumped to today');
 }
-function goToday(){const t=new Date();vy=t.getFullYear();vm=t.getMonth();render();showToast('Jumped to today');}
+
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),1900);
 }
 
 function showClearConfirm(){
-  document.getElementById('clear-confirm').style.display='flex';
+  closeSettings();
+  document.getElementById('clear-modal').classList.add('open');
 }
 function hideClearConfirm(){
-  document.getElementById('clear-confirm').style.display='none';
+  document.getElementById('clear-modal').classList.remove('open');
 }
 function clearAll(){
   D={shifts:{},starts:[]};
@@ -642,6 +642,18 @@ function clearAll(){
   showToast('All data cleared');
 }
 
+document.getElementById('settings-btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  const menu=document.getElementById('settings-menu');
+  menu.classList.toggle('open');
+});
+document.getElementById('settings-menu').addEventListener('click',function(e){
+  e.stopPropagation();
+});
+document.getElementById('goto-today-btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  scrollToToday();
+});
 document.getElementById('clear-all-btn').addEventListener('click',function(e){
   e.stopPropagation();
   showClearConfirm();
@@ -654,9 +666,17 @@ document.getElementById('clear-no').addEventListener('click',function(e){
   e.stopPropagation();
   hideClearConfirm();
 });
+document.getElementById('clear-modal').addEventListener('click',function(e){
+  if(e.target===this) hideClearConfirm();
+});
 
 load();
 render();
+requestAnimationFrame(()=>{
+  const m=new Date().getMonth();
+  const el=document.getElementById('month-'+m);
+  if(el) el.scrollIntoView({block:'start'});
+});
 </script>
 </body>
 </html>
