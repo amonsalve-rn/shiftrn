@@ -369,15 +369,17 @@ function getBlockForKey(key){
   return null;
 }
 
-// Most recent schedule start on or before today (active block anchor)
+// Active schedule block: prefer the block containing today, else the latest marked start
 function getActiveBlockStart(){
   if(D.starts.length===0) return null;
+  const sorted=[...D.starts].sort();
   const today=todayDk();
-  let blockStart=null;
-  for(const s of [...D.starts].sort()){
-    if(s<=today) blockStart=s;
+  for(let i=sorted.length-1;i>=0;i--){
+    const bs=sorted[i];
+    const{end}=getBlockRange(bs);
+    if(bs<=today&&today<=end) return bs;
   }
-  return blockStart;
+  return sorted[sorted.length-1];
 }
 
 function getBlockRange(blockStart){
